@@ -15,22 +15,11 @@ void AMyCubyController::SetupInputComponent()
 	Super::SetupInputComponent();
 
 	InputComponent->BindAxis("LookRight", this, &AMyCubyController::MoveCuby);
-}
-
-void AMyCubyController::Tick(float DeltaTime)
-{
+	InputComponent->BindAction("Jump", IE_Pressed, this, &AMyCubyController::JumpCuby);
 }
 
 void AMyCubyController::BeginPlay()
 {
-	cuby = NewObject<ACuby>(this);
-
-
-	TArray<AActor*>CameraActors;
-	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ACameraActor::StaticClass(), CameraActors);
-	
-	FViewTargetTransitionParams params;
-	SetViewTarget(CameraActors[1], params);
 }
 
 void AMyCubyController::TriggerJump()
@@ -39,18 +28,32 @@ void AMyCubyController::TriggerJump()
 
 void AMyCubyController::MoveCuby(float AxisValue)
 {
-	if (AxisValue > 0.09f && cuby)
-	{
-		cuby->MoveRight();
-	}
-	else if (AxisValue < -0.09f && cuby)
-	{
-		cuby->MoveLeft();
-	}
-	if (!cuby)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("NullPtr"));
-	}
+	ACuby* ControlledPawn = Cast<ACuby>(GetPawn());
 
-	GEngine->AddOnScreenDebugMessage(1, 5.f, FColor::Green, FString::Printf(TEXT("Axis Value: %f"), AxisValue));
+	if (ControlledPawn)
+	{
+		if (AxisValue > 0.03f)
+		{
+			ControlledPawn->MoveRight();
+		}
+		else if (AxisValue < -0.03f)
+		{
+			ControlledPawn->MoveLeft();
+		}
+		if (!ControlledPawn)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("NullPtr"));
+		}
+		GEngine->AddOnScreenDebugMessage(1, 5.f, FColor::Green, FString::Printf(TEXT("Axis Value: %f"), AxisValue));
+	}
+}
+
+void AMyCubyController::JumpCuby()
+{
+	ACuby* ControlledPawn = Cast<ACuby>(GetPawn());
+
+	if (ControlledPawn)
+	{
+		ControlledPawn->CubyJump();
+	}
 }

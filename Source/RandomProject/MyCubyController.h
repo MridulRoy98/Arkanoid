@@ -17,14 +17,11 @@ class RANDOMPROJECT_API AMyCubyController : public APlayerController
 public:
 	AMyCubyController();
 
-	UPROPERTY()
-	class ACuby* cuby;
-
 protected:
 	virtual void BeginPlay() override;
 	virtual void SetupInputComponent() override;
-	virtual void Tick(float DeltaTime) override;
 	virtual void TriggerJump();
 	virtual void MoveCuby(float AxisValue);
+	virtual void JumpCuby();
 
 };
