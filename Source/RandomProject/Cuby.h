@@ -27,34 +27,20 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Cuby Config")
 	float speed;
 
-	bool bIsMovingRight;
-	bool bIsMovingLeft;
-
-	FVector targetLocation;
-
-
+	UFUNCTION()
+		void MoveRight();
 
 	UFUNCTION()
-		virtual void MoveRight();
-
-	UFUNCTION()
-		virtual void MoveLeft();
-	UFUNCTION()
-		virtual void CubyJump();
+		void MoveLeft();
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	virtual void ConstraintRotation();
-	virtual void ShrinkPaddle();
 	
 
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
 
 };

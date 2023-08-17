@@ -22,6 +22,5 @@ protected:
 	virtual void SetupInputComponent() override;
 	virtual void TriggerJump();
 	virtual void MoveCuby(float AxisValue);
-	virtual void JumpCuby();
 
 };

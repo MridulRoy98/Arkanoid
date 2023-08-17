@@ -5,8 +5,13 @@
 #include "Cuby.h"
 #include <Kismet/GameplayStatics.h>
 #include <Camera/CameraActor.h>
+#include "Ball.h"
 
 AMyCubyController::AMyCubyController()
+{
+}
+
+void AMyCubyController::BeginPlay()
 {
 }
 
@@ -15,17 +20,30 @@ void AMyCubyController::SetupInputComponent()
 	Super::SetupInputComponent();
 
 	InputComponent->BindAxis("LookRight", this, &AMyCubyController::MoveCuby);
-	InputComponent->BindAction("Jump", IE_Pressed, this, &AMyCubyController::JumpCuby);
+	InputComponent->BindAction("Jump", IE_Pressed, this, &AMyCubyController::TriggerJump);
 }
 
-void AMyCubyController::BeginPlay()
-{
-}
-
+//This function is called when the player presses space
+//It finds the Aball in the scene and changes the bool "bBallInMotion" to false
+//The ball is then set to motion and it no longer follows the paddle's movement
 void AMyCubyController::TriggerJump()
 {
+	TArray<AActor*> foundActors;
+	UGameplayStatics::GetAllActorsWithTag(GetWorld(), FName(TEXT("Ball")), foundActors);
+	
+	for (AActor* Actor : foundActors)
+	{
+		ABall* ballRef = Cast<ABall>(Actor);
+		if (Actor)
+		{
+			ballRef->SetBallInMotion();
+			ballRef->MovingBall();
+		}
+	}
 }
 
+//This function is called everytime the mouse is moved
+//It accesses the default pawn which is ACuby and moves it with respect to the mouse movement
 void AMyCubyController::MoveCuby(float AxisValue)
 {
 	ACuby* ControlledPawn = Cast<ACuby>(GetPawn());
@@ -45,15 +63,5 @@ void AMyCubyController::MoveCuby(float AxisValue)
 			UE_LOG(LogTemp, Warning, TEXT("NullPtr"));
 		}
 		GEngine->AddOnScreenDebugMessage(1, 5.f, FColor::Green, FString::Printf(TEXT("Axis Value: %f"), AxisValue));
-	}
-}
-
-void AMyCubyController::JumpCuby()
-{
-	ACuby* ControlledPawn = Cast<ACuby>(GetPawn());
-
-	if (ControlledPawn)
-	{
-		ControlledPawn->CubyJump();
 	}
 }

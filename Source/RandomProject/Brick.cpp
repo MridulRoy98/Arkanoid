@@ -15,8 +15,6 @@ ABrick::ABrick()
 
 	brickMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Brick Mesh"));
 	brickMesh->SetupAttachment(brickCollider);
-
-	//brickCollider->OnComponentHit.AddDynamic(this, &ABrick::OnHit);
 }
 
 // Called when the game starts or when spawned
@@ -29,16 +27,4 @@ void ABrick::BeginPlay()
 void ABrick::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
-}
-
-void ABrick::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
-{
-	//UE_LOG(LogTemp, Warning, TEXT("Overlapped"));
-	if (OtherActor->IsA(ABall::StaticClass()))
-	{
-		UE_LOG(LogTemp, Warning, TEXT("ABrick::OnHit"));
-		brickMesh->DestroyComponent();
-		brickCollider->DestroyComponent();
-	}
 }

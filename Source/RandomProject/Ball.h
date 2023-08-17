@@ -14,6 +14,7 @@ class RANDOMPROJECT_API ABall : public AActor
 private:
 	int points;
 
+	
 public:	
 	// Sets default values for this actor's properties
 	ABall();
@@ -27,11 +28,15 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Ball Config")
 		class UProjectileMovementComponent* ballMovement;
 
-	/*UPROPERTY()
-		int myPts;*/
+	UPROPERTY(EditAnywhere, Category = "Ball Config")
+		class ACuby* paddleRef;
+
+		bool bBallInMotion;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
 	void SetPoints(int pts)
 	{
 		points = pts;
@@ -44,9 +49,12 @@ protected:
 	UFUNCTION()
 	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 
+	void FollowPaddle();
+	void RestartLevel();
 
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
+	void SetBallInMotion();
+	void MovingBall();
 };
