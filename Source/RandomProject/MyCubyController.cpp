@@ -1,19 +1,12 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "MyCubyController.h"
-#include "Cuby.h"
 #include <Kismet/GameplayStatics.h>
 #include <Camera/CameraActor.h>
+#include "MyCubyController.h"
+#include "Cuby.h"
 #include "Ball.h"
 
-AMyCubyController::AMyCubyController()
-{
-}
-
-void AMyCubyController::BeginPlay()
-{
-}
 
 void AMyCubyController::SetupInputComponent()
 {
@@ -34,7 +27,7 @@ void AMyCubyController::TriggerJump()
 	for (AActor* Actor : foundActors)
 	{
 		ABall* ballRef = Cast<ABall>(Actor);
-		if (Actor)
+		if (Actor && ballRef->GetBallInMotion() != true)
 		{
 			ballRef->SetBallInMotion();
 			ballRef->MovingBall();

@@ -13,12 +13,8 @@ UCLASS()
 class RANDOMPROJECT_API AMyCubyController : public APlayerController
 {
 	GENERATED_BODY()
-	
-public:
-	AMyCubyController();
 
 protected:
-	virtual void BeginPlay() override;
 	virtual void SetupInputComponent() override;
 	virtual void TriggerJump();
 	virtual void MoveCuby(float AxisValue);

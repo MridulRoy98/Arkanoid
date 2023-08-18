@@ -1,13 +1,13 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
+#include "Ball.h"
+#include "Cuby.h"
+#include "Brick.h"
 #include <GameFramework/ProjectileMovementComponent.h>
 #include <Components/SphereComponent.h>
 #include <Kismet/GameplayStatics.h>
 #include "MyCubyController.h"
 #include "CubyGameManager.h"
-#include "Brick.h"
-#include "Ball.h"
-#include "Cuby.h"
 
 
 // Sets default values
@@ -31,7 +31,6 @@ ABall::ABall()
 	bBallInMotion = false;
 
 	ballCollider->OnComponentHit.AddDynamic(this, &ABall::OnHit);
-
 	/////////////////////////////////////////////
 }
 
@@ -66,12 +65,10 @@ void ABall::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimit
 	{
 		OtherActor->Destroy();
 		SetPoints(GetPoints()+1);
-		//UE_LOG(LogTemp, Warning, TEXT("Points Accumulated: %d"), GetPoints());
 	}
 
 	if (OtherActor->ActorHasTag("BottomTrigger"))
 	{
-		//UE_LOG(LogTemp, Warning, TEXT("Bottom Trigger touched"));
 		RestartLevel();
 	}
 }
@@ -97,8 +94,14 @@ void ABall::FollowPaddle()
 	}	
 }
 
+//This is called from the player controller when the player presses the spacebar
+//To stop the ball from following the paddle
+void ABall::SetBallInMotion()
+{
+	bBallInMotion = true;
+}
 
-//After the player presses the "Spacebar" this function sets the ball in motion
+// When bBallInMotion = true, this function sets the ball in motion
 void ABall::MovingBall()
 {
 	ballMovement->Velocity.X = 0;
@@ -106,10 +109,10 @@ void ABall::MovingBall()
 	ballMovement->Velocity.Z = 200;
 }
 
-//To stop the ball from being idle
-void ABall::SetBallInMotion()
+
+bool ABall :: GetBallInMotion()
 {
-	bBallInMotion = true;
+	return bBallInMotion;
 }
 
 void ABall::RestartLevel()
