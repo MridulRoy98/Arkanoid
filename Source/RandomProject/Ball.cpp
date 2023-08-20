@@ -8,6 +8,7 @@
 #include <Kismet/GameplayStatics.h>
 #include "MyCubyController.h"
 #include "CubyGameManager.h"
+#include <Sound/SoundBase.h>
 
 
 // Sets default values
@@ -63,11 +64,12 @@ void ABall::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimit
 {
 	if (OtherActor && OtherActor->IsA(ABrick::StaticClass()))
 	{
+		UGameplayStatics::SpawnSoundAtLocation(this, brickbreaksound, OtherActor->GetActorLocation());
 		OtherActor->Destroy();
 		SetPoints(GetPoints()+1);
 	}
 
-	if (OtherActor->ActorHasTag("BottomTrigger"))
+	if (OtherActor->ActorHasTag("BottomTrigger") || GetPoints() == 46)
 	{
 		RestartLevel();
 	}

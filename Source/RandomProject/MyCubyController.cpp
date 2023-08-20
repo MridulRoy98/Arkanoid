@@ -1,9 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
+#include "MyCubyController.h"
 #include <Kismet/GameplayStatics.h>
 #include <Camera/CameraActor.h>
-#include "MyCubyController.h"
 #include "Cuby.h"
 #include "Ball.h"
 

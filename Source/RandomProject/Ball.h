@@ -12,13 +12,15 @@ class RANDOMPROJECT_API ABall : public AActor
 	GENERATED_BODY()
 	
 private:
-	int points;
+	
 
 	
 public:	
 	// Sets default values for this actor's properties
 	ABall();
-
+	UPROPERTY(BlueprintReadWrite, Category = "Gameplay")
+		int points;
+		
 	UPROPERTY(EditAnywhere, Category = "Ball Config")
 		class UStaticMeshComponent* ball;
 
@@ -31,7 +33,16 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Ball Config")
 		class ACuby* paddleRef;
 
+	UPROPERTY(EditAnywhere, Category = "Sound")
+		class USoundBase* brickbreaksound;
+
 		bool bBallInMotion;
+
+	UFUNCTION(BlueprintCallable, Category = "Gameplay")
+		int GetPoints()
+		{
+			return points;
+		}
 
 protected:
 	// Called when the game starts or when spawned
@@ -41,10 +52,7 @@ protected:
 	{
 		points = pts;
 	}
-	int GetPoints()
-	{
-		return points;
-	}
+	
 
 	UFUNCTION()
 	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
