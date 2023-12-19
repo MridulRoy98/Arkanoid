@@ -33,6 +33,7 @@ void ACuby::Tick(float DeltaTime)
 	ConstraintRotation();
 }
 
+// Stops the pawn from rotating
 void ACuby::ConstraintRotation()
 {
 	const FRotator cubyRotation = FRotator(0.0f, 0.0f, 0.0f);
